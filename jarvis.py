@@ -340,7 +340,7 @@ def get_ai_response(command: str):
         client = genai.Client(api_key=api_key)
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.6-flash",
             contents=(
                 "You are JARVIS, a professional AI assistant. "
                 "Answer clearly, naturally and helpfully.\n\n"
