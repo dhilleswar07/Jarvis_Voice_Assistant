@@ -1,9 +1,4 @@
 streamlit
+psutil
 SpeechRecognition
-pyttsx3
-pywhatkit
-wikipedia
-psutil
-PyAudio
-psutil
 google-genai
