@@ -320,32 +320,47 @@ def battery_status():
 
 
 def get_ai_response(command: str):
-    """Use Google Gemini when a Gemini/Google API key is configured."""
+    """Get an AI response from Google Gemini."""
+
     api_key = get_secret("GEMINI_API_KEY") or get_secret("GOOGLE_API_KEY")
 
-    if genai and api_key:
-        try:
-            client = genai.Client(api_key=api_key)
-            response = client.models.generate_content(
-                model=get_secret("GEMINI_MODEL", "gemini-2.5-flash"),
-                contents=(
-                    "You are JARVIS, a concise, professional AI assistant. "
-                    "Answer naturally and helpfully. Do not claim to have performed "
-                    "actions that the web app cannot perform.\n\n"
-                    f"User command: {command}"
-                ),
-            )
-            answer = getattr(response, "text", None)
-            if answer:
-                return answer.strip()
-            return "Gemini returned an empty response."
-        except Exception as exc:
-            return (
-                "Google Gemini is temporarily unavailable. "
-                f"Local JARVIS mode is active. ({type(exc).__name__})"
-            )
+    if not api_key:
+        return (
+            "Gemini API key is missing.\n\n"
+            "Please add GEMINI_API_KEY to Streamlit Secrets."
+        )
 
-    return None
+    if genai is None:
+        return (
+            "Google Gemini package is not installed.\n\n"
+            "Please add google-genai to requirements.txt."
+        )
+
+    try:
+        client = genai.Client(api_key=api_key)
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=(
+                "You are JARVIS, a professional AI assistant. "
+                "Answer clearly, naturally and helpfully.\n\n"
+                f"User command: {command}"
+            ),
+        )
+
+        answer = getattr(response, "text", None)
+
+        if answer:
+            return answer.strip()
+
+        return "Gemini returned an empty response."
+
+    except Exception as exc:
+        return (
+            "⚠️ Google Gemini API Error\n\n"
+            f"{type(exc).__name__}: {str(exc)}\n\n"
+            "Please check your GEMINI_API_KEY in Streamlit Secrets."
+        )
 
 
 def execute_command(command: str):
