@@ -50,8 +50,8 @@ MAX_AI_MESSAGES = 12
 BACKGROUND_IMAGE = Path("assets/jarvis_background.jpg")
 
 DEFAULT_MODELS = [
-    "gemini-2.5-flash",
-    "gemini-2.5-flash-lite",
+    "gemini-3.6-flash",
+    "gemini-3.6-flash-lite",
 ]
 
 QUICK_COMMANDS = {
