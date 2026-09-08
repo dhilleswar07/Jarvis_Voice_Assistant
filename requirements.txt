@@ -1,4 +1,4 @@
-streamlit
-psutil
-SpeechRecognition
-google-genai
+streamlit>=1.45.0
+google-genai>=1.20.0
+SpeechRecognition>=3.14.0
+psutil>=6.0.0
