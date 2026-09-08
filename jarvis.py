@@ -320,7 +320,7 @@ def battery_status():
 
 
 def get_ai_response(command: str):
-    """Get an AI response from Google Gemini."""
+    """Get an AI response from Google Gemini with automatic fallback."""
 
     api_key = get_secret("GEMINI_API_KEY") or get_secret("GOOGLE_API_KEY")
 
@@ -336,31 +336,45 @@ def get_ai_response(command: str):
             "Please add google-genai to requirements.txt."
         )
 
-    try:
-        client = genai.Client(api_key=api_key)
+    # Models are tried in order.
+    models = [
+        "gemini-3.5-flash-lite",
+        "gemini-2.5-flash-lite",
+        "gemini-2.5-flash",
+        "gemini-3.6-flash",
+    ]
 
-        response = client.models.generate_content(
-            model="gemini-3.6-flash",
-            contents=(
-                "You are JARVIS, a professional AI assistant. "
-                "Answer clearly, naturally and helpfully.\n\n"
-                f"User command: {command}"
-            ),
-        )
+    prompt = (
+        "You are JARVIS, a professional AI assistant. "
+        "Answer clearly, naturally and helpfully.\n\n"
+        f"User command: {command}"
+    )
 
-        answer = getattr(response, "text", None)
+    last_error = None
 
-        if answer:
-            return answer.strip()
+    for model_name in models:
+        try:
+            client = genai.Client(api_key=api_key)
 
-        return "Gemini returned an empty response."
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+            )
 
-    except Exception as exc:
-        return (
-            "⚠️ Google Gemini API Error\n\n"
-            f"{type(exc).__name__}: {str(exc)}\n\n"
-            "Please check your GEMINI_API_KEY in Streamlit Secrets."
-        )
+            answer = getattr(response, "text", None)
+
+            if answer:
+                return answer.strip()
+
+        except Exception as exc:
+            last_error = exc
+            continue
+
+    return (
+        "⚠️ Gemini is temporarily unavailable.\n\n"
+        f"{type(last_error).__name__}: {str(last_error)}\n\n"
+        "Please try again in a few moments."
+    )
 
 
 def execute_command(command: str):
