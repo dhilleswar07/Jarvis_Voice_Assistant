@@ -420,6 +420,20 @@ def execute_command(command: str):
             return f"Ready. I found a YouTube search for **{query}**.", url
         return "YouTube is ready. Use the button below to open it.", url
 
+        # Social media commands
+    if "instagram" in text:
+        url = "https://www.instagram.com/"
+        return "Instagram is ready. Click the button below to open it.", url
+
+    if "linkedin" in text:
+        url = "https://www.linkedin.com/"
+        return "LinkedIn is ready. Click the button below to open it.", url
+
+    if "github" in text:
+        url = "https://github.com/"
+        return "GitHub is ready. Click the button below to open it.", url
+
+    
     if "google" in text or "search for" in text or text.startswith("search "):
         query = None
         if "search for" in text:
@@ -511,6 +525,9 @@ with st.sidebar:
         """
         <div class="small-note">
         • open google<br>
+        • open instagram<br>
+        • open linkedin<br>
+        • open github<br>
         • open youtube<br>
         • play believer<br>
         • calculate 25*4<br>
