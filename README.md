@@ -1,140 +1,112 @@
-# JARVIS — AI Voice Assistant
+# 🎙️ Jarvis Voice Assistant
 
-JARVIS is a Streamlit-based voice assistant and command center. It combines voice transcription, Gemini-powered conversational responses, useful local commands, browser links, speech playback, and a live system-status dashboard.
+An AI-powered voice assistant built with Python to make human-computer interaction more convenient through voice commands. The project explores speech recognition, voice responses, and intelligent assistant capabilities.
 
-## Features
+## 📌 Project Overview
 
-- **Voice and text input:** Record a command in the dashboard and transcribe it with Google Speech Recognition, or type a command directly.
-- **Gemini conversations:** Send general questions to Google Gemini. Recent AI conversation messages are retained in the current Streamlit session for context.
-- **Built-in commands:** Ask for the time or date, calculate basic arithmetic, view system information or battery status, search Google or YouTube, open supported websites, clear history, or ask for help.
-- **Dashboard:** View CPU, memory, disk, and battery metrics when `psutil` can provide them.
-- **Speech output:** Let the browser read JARVIS responses aloud; this uses the browser's Web Speech API.
-- **Command history and quick actions:** Review recent commands and use the dashboard's quick-command buttons.
+**Jarvis Voice Assistant** is designed to provide a hands-free way to interact with a computer using voice commands. It aims to simplify everyday tasks and provide an interactive assistant experience.
 
-## Requirements
+The project serves as a practical application of Python, voice processing, and AI-powered assistance.
 
-- Python 3.9 or newer
-- A modern browser and microphone for voice input
-- Internet access for Google speech recognition and Gemini requests
-- A Gemini API key for AI conversations. Built-in commands work without a key.
+## ✨ Features
 
-Install the packages listed in `requirements.txt`:
+- 🎤 **Voice Recognition** — Capture and process spoken commands.
+- 🗣️ **Voice Responses** — Respond to users through speech output.
+- 🤖 **AI Assistance** — Explore AI-powered responses to user queries.
+- ⚡ **Voice-Controlled Interaction** — Interact with the assistant using natural language.
+- 💻 **Python Implementation** — Build and customize assistant functionality.
+- 🔧 **Extensible Design** — Add new commands and capabilities as the project develops.
 
-```text
-streamlit>=1.45.0
-google-genai>=1.20.0
-SpeechRecognition>=3.14.0
-psutil>=6.0.0
-```
+*The availability of individual features depends on the current implementation in the repository.*
 
-## Run locally
+## 🛠️ Technologies
 
-1. Clone the repository and enter its folder:
+- Python
+- Speech Recognition
+- Text-to-Speech (TTS)
+- Artificial Intelligence
+- Natural Language Processing (NLP)
 
-   ```bash
-   git clone https://github.com/dhilleswar07/Jarvis_Voice_Assistant.git
-   cd Jarvis_Voice_Assistant
-   ```
+Check the source code and dependency files for the exact libraries used.
 
-2. (Recommended) Create and activate a virtual environment:
+## ⚙️ Installation and Setup
 
-   ```bash
-   python -m venv .venv
-   ```
-
-   Windows PowerShell:
-
-   ```powershell
-   .venv\Scripts\Activate.ps1
-   ```
-
-   macOS/Linux:
-
-   ```bash
-   source .venv/bin/activate
-   ```
-
-3. Install dependencies and launch the app:
-
-   ```bash
-   python -m pip install -r requirements.txt
-   streamlit run jarvis.py
-   ```
-
-Streamlit prints a local URL (usually `http://localhost:8501`) to open in your browser.
-
-## Configure Gemini
-
-Set a key as an environment variable before launching the app. The app accepts `GEMINI_API_KEY` or `GOOGLE_API_KEY`:
-
-PowerShell:
-
-```powershell
-$env:GEMINI_API_KEY = "your-api-key"
-streamlit run jarvis.py
-```
-
-macOS/Linux:
+### 1. Clone the repository
 
 ```bash
-export GEMINI_API_KEY="your-api-key"
-streamlit run jarvis.py
+git clone https://github.com/dhilleswar07/Jarvis_Voice_Assistant.git
 ```
 
-Alternatively, create `.streamlit/secrets.toml` in the project folder:
+### 2. Navigate to the project directory
 
-```toml
-GEMINI_API_KEY = "your-api-key"
-# Optional: override the model name used by the app
-GEMINI_MODEL = "gemini-3.6-flash"
+```bash
+cd Jarvis_Voice_Assistant
 ```
 
-Keep API keys private. Do not commit `secrets.toml` or publish your key. The app defaults to `gemini-3.6-flash`; set `GEMINI_MODEL` to a model available to your Google AI account if that default is unavailable.
+### 3. Create a virtual environment
 
-## Example commands
+```bash
+python -m venv .venv
+```
 
-| Say or enter | What JARVIS does |
-| --- | --- |
-| `hello` | Greets you |
-| `what is the time` / `today's date` | Reports the current time or date |
-| `calculate 25*4` | Evaluates basic arithmetic |
-| `system information` | Shows OS, processor, CPU, memory, and disk details |
-| `battery status` | Reports battery level and charging state when available |
-| `open google` / `open github` | Provides a link to the website |
-| `search for computer vision jobs` | Creates a Google search link |
-| `play believer` | Creates a YouTube search link |
-| `help` | Lists available capabilities |
-| Any other question | Sends it to Gemini when configured |
+Activate it on Windows:
 
-Website commands show a link for you to open. The Python server does not directly control the browser, especially when hosted remotely.
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-## Voice input and output
+### 4. Install dependencies
 
-Use **Speak to JARVIS** to record audio, then select **Transcribe & Execute**. Speech recognition uses `recognize_google`, which requires internet access. If transcription fails, check microphone permission, connectivity, and whether your browser can capture audio.
+If the repository includes a `requirements.txt` file, run:
 
-Voice responses use the browser's built-in speech synthesis. Enable **Voice responses** in the sidebar and allow audio in your browser. Available voices depend on the browser and operating system.
+```bash
+pip install -r requirements.txt
+```
 
-## System monitoring
+Otherwise, install the dependencies required by the project's Python files.
 
-`psutil` supplies CPU, RAM, disk, and battery readings. Some systems do not expose battery sensors or may report disk metrics differently; unavailable values are expected in those cases. On a hosted deployment, these metrics describe the host running Streamlit, not the visitor's device.
+### 5. Run the application
 
-## Deploying
+Identify the main Python script in the repository and execute it:
 
-The app can be deployed to a Streamlit-compatible host. Add `GEMINI_API_KEY` (and optionally `GEMINI_MODEL`) to the host's Streamlit secrets, install dependencies from `requirements.txt`, and use `jarvis.py` as the app entry point. Microphone permissions and audio support depend on the host and visitor's browser. Commands that create website links do not launch a browser on the server.
+```bash
+python filename.py
+```
 
-## Project files
+Replace `filename.py` with the actual entry-point filename.
 
-- `jarvis.py` — Streamlit application, command handling, Gemini integration, and dashboard.
-- `requirements.txt` — Python dependencies.
-- `assets/` — Static assets included with the project (the app looks for `assets/jarvis_background.jpg`).
+**Prerequisites:** A working Python environment and microphone/audio output may be required, depending on the implemented features.
 
-## Troubleshooting
+## 🎯 Use Cases
 
-- **Gemini is not connected:** Check that the API key is set in Streamlit secrets or the environment, that `google-genai` is installed, and that the selected model is available to your account.
-- **Voice transcription is unavailable:** Confirm `SpeechRecognition` installed successfully, grant microphone access, and check internet connectivity.
-- **System values show as unavailable:** Install `psutil`; battery and some disk readings are also hardware/OS dependent.
-- **No spoken response:** Turn on **Voice responses** and check browser audio or speech-synthesis support.
+- Hands-free computer interaction
+- Voice-based assistance
+- Learning speech recognition and speech synthesis
+- Exploring AI-powered applications
+- Practicing Python application development
 
-## License
+## 🔮 Future Enhancements
 
-No license is specified in the repository. Unless a license file is added, all rights remain with the copyright holder and reuse is not granted by default.
+- Integrate advanced conversational AI models.
+- Add wake-word detection.
+- Support multiple languages.
+- Introduce real-time web search.
+- Add desktop automation capabilities.
+- Develop a graphical user interface.
+- Improve speech recognition accuracy and response speed.
+
+## 👨‍💻 Author
+
+**Dhilleswar Jogi**
+
+- GitHub: [@dhilleswar07](https://github.com/dhilleswar07)
+- Project Repository: [Jarvis Voice Assistant](https://github.com/dhilleswar07/Jarvis_Voice_Assistant)
+
+## 📄 License
+
+Refer to the repository's license file for usage and distribution terms. If no license exists, consider adding one before distributing the project.
+
+---
+
+⭐ If you find this project useful, consider giving the repository a star!
+
